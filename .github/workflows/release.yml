@@ -6,12 +6,7 @@ name: Release
 #   - push of a tag v* (must match the version in pubspec.yaml).
 # Both paths skip if the release already exists, so pushing a commit and its
 # tag together publishes only once.
-#
-# Required repository secrets (Settings > Secrets and variables > Actions):
-#   ANDROID_KEYSTORE_BASE64   base64 of android/upload-keystore.jks
-#   ANDROID_KEYSTORE_PASSWORD storePassword from android/key.properties
-#   ANDROID_KEY_PASSWORD      keyPassword   from android/key.properties
-#   ANDROID_KEY_ALIAS         keyAlias      from android/key.properties
+# No signing secrets: the APK is built with Flutter's default (debug) signing.
 on:
   push:
     branches: [main]
@@ -79,37 +74,9 @@ jobs:
           flutter analyze
           flutter test
 
-      - name: Set up release signing
-        if: steps.check.outputs.skip == 'false'
-        env:
-          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-        run: |
-          # Refuse to publish a debug-signed APK: installed apps could not update to it.
-          if [[ -z "$KEYSTORE_BASE64" || -z "$STORE_PASSWORD" || -z "$KEY_PASSWORD" || -z "$KEY_ALIAS" ]]; then
-            echo "::error::Signing secrets are missing (ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_PASSWORD, ANDROID_KEY_ALIAS)."
-            exit 1
-          fi
-          echo "$KEYSTORE_BASE64" | base64 --decode > android/upload-keystore.jks
-          cat > android/key.properties <<PROPS
-          storePassword=$STORE_PASSWORD
-          keyPassword=$KEY_PASSWORD
-          keyAlias=$KEY_ALIAS
-          storeFile=../upload-keystore.jks
-          PROPS
-
       - name: Build APK
         if: steps.check.outputs.skip == 'false'
         run: flutter build apk --release
-
-      - name: Verify signature
-        if: steps.check.outputs.skip == 'false'
-        run: |
-          apksigner=$(ls -d "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
-          "$apksigner" verify --print-certs build/app/outputs/flutter-apk/app-release.apk | tee certs.txt
-          grep -q "CN=Transfeer" certs.txt || { echo "::error::APK is not signed with the release key"; exit 1; }
 
       - name: Zip APK
         if: steps.check.outputs.skip == 'false'
@@ -139,7 +106,3 @@ jobs:
             --target "$GITHUB_SHA" \
             --title "Transfeer $tag" \
             --notes-file "$notes_file"
-
-      - name: Clean up signing files
-        if: always()
-        run: rm -f android/upload-keystore.jks android/key.properties

@@ -32,7 +32,7 @@ The app downloads the zip, extracts the APK and opens the Android installer.
 1. Bump `version:` in `pubspec.yaml`, e.g. `2.0.1+3`. **Always increase the `+build` number** as well; Android refuses to install a lower versionCode.
 2. Commit and push to `main`. GitHub Actions ([release.yml](.github/workflows/release.yml)) sees a version with no release yet, so it:
    1. runs analyze and tests,
-   2. builds the signed APK and checks its signature,
+   2. builds the APK (no signing secrets needed),
    3. zips it as `transfeer-v2.0.1.zip`,
    4. publishes release **`v2.0.1`** with the zip attached.
 
@@ -45,16 +45,6 @@ The app downloads the zip, extracts the APK and opens the Android installer.
 3. Installed apps (v2.0.0+) show the update sheet on their next launch. The release notes are shown to users, so write them in Vietnamese.
 
 [ci.yml](.github/workflows/ci.yml) runs analyze and tests on every push and pull request.
-
-#### One-time setup: signing secrets
-The release workflow refuses to publish without these repository secrets (**Settings → Secrets and variables → Actions**):
-
-| Secret | Value |
-|---|---|
-| `ANDROID_KEYSTORE_BASE64` | `[Convert]::ToBase64String([IO.File]::ReadAllBytes("android\upload-keystore.jks"))` |
-| `ANDROID_KEYSTORE_PASSWORD` | `storePassword` from `android/key.properties` |
-| `ANDROID_KEY_PASSWORD` | `keyPassword` from `android/key.properties` |
-| `ANDROID_KEY_ALIAS` | `keyAlias` from `android/key.properties` |
 
 #### Releasing locally (alternative)
 `.\scripts\release.ps1` builds the same zip into `dist\`. Add `-Publish -Notes "…"` with `$env:GITHUB_TOKEN` set to create the release from your machine.
