@@ -5,6 +5,7 @@ import '../state/etf_controller.dart';
 import '../theme.dart';
 import '../utils/calculator.dart';
 import '../utils/format.dart';
+import '../widgets/lottie_view.dart';
 
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({super.key});
@@ -46,14 +47,22 @@ class _CalculatorScreenState extends State<CalculatorScreen>
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       children: [
-        Text('How many units can I buy?',
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge
-                ?.copyWith(fontWeight: FontWeight.w800)),
-        const SizedBox(height: 4),
-        Text('Enter the total amount of money (VND) you want to invest in FUESSV30.',
-            style: TextStyle(color: cs.onSurfaceVariant)),
+        Row(children: [
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text('Mua được bao nhiêu chứng chỉ quỹ?',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge
+                      ?.copyWith(fontWeight: FontWeight.w800)),
+              const SizedBox(height: 4),
+              Text('Nhập tổng số tiền (VND) bạn muốn đầu tư vào quỹ FUESSV30.',
+                  style: TextStyle(color: cs.onSurfaceVariant)),
+            ]),
+          ),
+          const SizedBox(width: 8),
+          const LottieView('coins', size: 84),
+        ]),
         const SizedBox(height: 16),
         TextField(
           controller: _ctrl,
@@ -63,7 +72,7 @@ class _CalculatorScreenState extends State<CalculatorScreen>
           style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
           decoration: InputDecoration(
             hintText: '0',
-            labelText: 'Total money',
+            labelText: 'Số tiền đầu tư',
             prefixIcon: const Icon(Icons.account_balance_wallet_rounded),
             suffixText: '₫',
             suffixIcon: _ctrl.text.isEmpty
@@ -81,7 +90,7 @@ class _CalculatorScreenState extends State<CalculatorScreen>
         Wrap(spacing: 8, runSpacing: 8, children: [
           for (final p in _presets)
             ActionChip(
-              label: Text(fmtCompactVnd(p).replaceAll(',0', '')),
+              label: Text(fmtWordsVnd(p), style: const TextStyle(fontSize: 15)),
               onPressed: () => _setAmount(p),
             ),
         ]),
@@ -97,7 +106,7 @@ class _CalculatorScreenState extends State<CalculatorScreen>
                     child: CircularProgressIndicator(strokeWidth: 2)),
                 const SizedBox(width: 16),
                 Expanded(
-                    child: Text(c.error ?? 'Loading the latest price…',
+                    child: Text(c.error ?? 'Đang tải giá mới nhất…',
                         style: TextStyle(color: cs.onSurfaceVariant))),
               ]),
             ),
@@ -109,13 +118,13 @@ class _CalculatorScreenState extends State<CalculatorScreen>
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               child: Column(children: [
-                _Row('Average per unit',
+                _Row('Giá trung bình mỗi CCQ',
                     r.avgPerUnit == null ? '—' : fmtVnd(r.avgPerUnit!),
                     icon: Icons.functions_rounded),
                 const Divider(height: 1),
-                _Row('Total cost', fmtVnd(r.cost), icon: Icons.shopping_bag_rounded),
+                _Row('Tổng tiền mua', fmtVnd(r.cost), icon: Icons.shopping_bag_rounded),
                 const Divider(height: 1),
-                _Row('Leftover money', fmtVnd(r.leftover),
+                _Row('Tiền còn dư', fmtVnd(r.leftover),
                     icon: Icons.savings_rounded),
               ]),
             ),
@@ -131,7 +140,7 @@ class _CalculatorScreenState extends State<CalculatorScreen>
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                        'You need ${fmtVnd(r.shortfall)} more to buy 1 unit.'),
+                        'Bạn cần thêm ${fmtVnd(r.shortfall)} để mua được 1 CCQ.'),
                   ),
                 ]),
               ),
@@ -143,10 +152,10 @@ class _CalculatorScreenState extends State<CalculatorScreen>
             const SizedBox(width: 6),
             Expanded(
               child: Text(
-                'Using live price ${fmtVnd(q.price)}'
-                '${c.lastUpdated == null ? '' : ' · ${fmtTime(c.lastUpdated!)}'}'
-                ' · no fees included',
-                style: TextStyle(color: cs.onSurfaceVariant, fontSize: 12),
+                'Tính theo giá hiện tại ${fmtVnd(q.price)}'
+                '${c.lastUpdated == null ? '' : ' · lúc ${fmtTime(c.lastUpdated!)}'}'
+                ' · chưa gồm phí giao dịch',
+                style: TextStyle(color: cs.onSurfaceVariant, fontSize: 13),
               ),
             ),
           ]),
@@ -169,7 +178,7 @@ class _ResultHero extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(22),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('Units you can buy',
+          Text('Số chứng chỉ quỹ mua được',
               style: TextStyle(color: cs.onPrimary.withValues(alpha: 0.8))),
           const SizedBox(height: 6),
           TweenAnimationBuilder<double>(
@@ -190,7 +199,7 @@ class _ResultHero extends StatelessWidget {
               ),
             ),
           ),
-          Text('FUESSV30 fund units',
+          Text('CCQ FUESSV30',
               style: TextStyle(color: cs.onPrimary.withValues(alpha: 0.8))),
         ]),
       ),

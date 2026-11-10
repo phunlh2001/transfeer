@@ -23,7 +23,7 @@ class PriceRangeBar extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Today's range",
+            Text('Biên độ giá hôm nay',
                 style: TextStyle(color: cs.onSurfaceVariant, fontWeight: FontWeight.w600)),
             const SizedBox(height: 18),
             LayoutBuilder(builder: (context, box) {
@@ -92,11 +92,11 @@ class PriceRangeBar extends StatelessWidget {
             }),
             const SizedBox(height: 10),
             Row(children: [
-              _Label('Floor', q.floor, MarketColors.floor),
+              _Label('Sàn', q.floor, MarketColors.floor),
               const Spacer(),
-              _Label('Ref', q.ref, MarketColors.ref, center: true),
+              _Label('Tham chiếu', q.ref, MarketColors.ref, center: true),
               const Spacer(),
-              _Label('Ceiling', q.ceiling, MarketColors.ceiling, end: true),
+              _Label('Trần', q.ceiling, MarketColors.ceiling, end: true),
             ]),
           ],
         ),
@@ -124,7 +124,7 @@ class _Label extends StatelessWidget {
       children: [
         Text(title,
             style: TextStyle(
-                fontSize: 11, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                fontSize: 13, color: Theme.of(context).colorScheme.onSurfaceVariant)),
         Text(fmtNum(v), style: TextStyle(color: color, fontWeight: FontWeight.w700)),
       ],
     );

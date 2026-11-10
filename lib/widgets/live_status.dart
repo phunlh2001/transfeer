@@ -17,14 +17,14 @@ class LiveStatus extends StatelessWidget {
       children: [
         _PulseDot(color: color),
         const SizedBox(width: 8),
-        Text(ok ? 'LIVE' : (c.quote == null ? 'CONNECTING' : 'STALE'),
+        Text(ok ? 'TRỰC TIẾP' : (c.quote == null ? 'ĐANG KẾT NỐI' : 'MẤT KẾT NỐI'),
             style: TextStyle(
-                color: color, fontWeight: FontWeight.w700, letterSpacing: 1.2, fontSize: 12)),
+                color: color, fontWeight: FontWeight.w700, letterSpacing: 1.2, fontSize: 13)),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
-            c.lastUpdated == null ? '' : 'Updated ${fmtTime(c.lastUpdated!)}',
-            style: TextStyle(color: cs.onSurfaceVariant, fontSize: 12),
+            c.lastUpdated == null ? '' : 'Cập nhật lúc ${fmtTime(c.lastUpdated!)}',
+            style: TextStyle(color: cs.onSurfaceVariant, fontSize: 13),
             overflow: TextOverflow.ellipsis,
           ),
         ),

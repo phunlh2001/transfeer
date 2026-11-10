@@ -22,6 +22,27 @@ String fmtCompactVnd(num v) {
 
 String fmtTime(DateTime t) => DateFormat('HH:mm:ss').format(t);
 
+/// DateTime.weekday (1 = Monday) -> "Thứ Hai" … "Chủ Nhật".
+String weekdayVi(int weekday) => const [
+      'Thứ Hai',
+      'Thứ Ba',
+      'Thứ Tư',
+      'Thứ Năm',
+      'Thứ Sáu',
+      'Thứ Bảy',
+      'Chủ Nhật',
+    ][(weekday - 1) % 7];
+
+/// Spelled-out amount for quick-pick chips: 1e6 -> "1 triệu", 1e9 -> "1 tỷ".
+String fmtWordsVnd(num v) {
+  String n(double x) =>
+      (x == x.roundToDouble() ? x.toStringAsFixed(0) : x.toStringAsFixed(1)).replaceAll('.', ',');
+  if (v.abs() >= 1e9) return '${n(v / 1e9)} tỷ';
+  if (v.abs() >= 1e6) return '${n(v / 1e6)} triệu';
+  if (v.abs() >= 1e3) return '${n(v / 1e3)} nghìn';
+  return fmtNum(v);
+}
+
 /// "1.000.000" -> 1000000.
 double parseVnd(String s) =>
     double.tryParse(s.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0;

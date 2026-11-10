@@ -11,10 +11,10 @@ class StatGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = <(String, String, IconData, Color?)>[
-      ('High', fmtNum(q.high), Icons.north_east_rounded, MarketColors.forPrice(q.high, q)),
-      ('Low', fmtNum(q.low), Icons.south_east_rounded, MarketColors.forPrice(q.low, q)),
-      ('Volume', fmtNum(q.volume), Icons.bar_chart_rounded, null),
-      ('Value', fmtCompactVnd(q.value), Icons.payments_rounded, null),
+      ('Cao nhất', fmtNum(q.high), Icons.north_east_rounded, MarketColors.forPrice(q.high, q)),
+      ('Thấp nhất', fmtNum(q.low), Icons.south_east_rounded, MarketColors.forPrice(q.low, q)),
+      ('Khối lượng', fmtNum(q.volume), Icons.bar_chart_rounded, null),
+      ('Giá trị', fmtCompactVnd(q.value), Icons.payments_rounded, null),
     ];
     return LayoutBuilder(builder: (context, box) {
       final cols = box.maxWidth > 560 ? 4 : 2;
@@ -58,7 +58,7 @@ class _Tile extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(label, style: TextStyle(fontSize: 12, color: cs.onSurfaceVariant)),
+              Text(label, style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant)),
               const SizedBox(height: 2),
               FittedBox(
                 fit: BoxFit.scaleDown,

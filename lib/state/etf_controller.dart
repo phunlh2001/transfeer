@@ -72,12 +72,12 @@ class EtfController extends ChangeNotifier with WidgetsBindingObserver {
   String _friendly(Object e) {
     final s = e.toString();
     if (s.contains('TimeoutException')) {
-      return 'Server is slow to respond (it may be waking up)';
+      return 'Máy chủ phản hồi chậm (có thể đang khởi động). Vui lòng chờ…';
     }
     if (s.contains('ClientException') || s.contains('SocketException')) {
-      return 'Network error. Check your connection.';
+      return 'Lỗi kết nối mạng. Vui lòng kiểm tra Internet.';
     }
-    return s.replaceFirst('Exception: ', '');
+    return s.replaceFirst(RegExp(r'^\w*Exception: '), '');
   }
 
   @override

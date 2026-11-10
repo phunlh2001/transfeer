@@ -16,11 +16,11 @@ class EtfApi {
         queryParameters: {'t': '${DateTime.now().millisecondsSinceEpoch}'});
     final res = await _client.get(uri).timeout(const Duration(seconds: 15));
     if (res.statusCode != 200) {
-      throw Exception('Server error (HTTP ${res.statusCode})');
+      throw Exception('Lỗi máy chủ (mã ${res.statusCode})');
     }
     final body = jsonDecode(utf8.decode(res.bodyBytes));
     if (body is! Map<String, dynamic>) {
-      throw const FormatException('Unexpected response');
+      throw const FormatException('Dữ liệu trả về không hợp lệ');
     }
     return EtfQuote.fromJson(body);
   }

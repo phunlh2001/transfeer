@@ -33,18 +33,18 @@ class Sparkline extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(children: [
-              Text('Live session',
+              Text('Diễn biến trong phiên',
                   style: TextStyle(color: cs.onSurfaceVariant, fontWeight: FontWeight.w600)),
               const Spacer(),
-              Text('${points.length} ticks · every 5s',
-                  style: TextStyle(color: cs.onSurfaceVariant, fontSize: 12)),
+              Text('${points.length} lần cập nhật · mỗi 5 giây',
+                  style: TextStyle(color: cs.onSurfaceVariant, fontSize: 13)),
             ]),
             const SizedBox(height: 12),
             SizedBox(
               height: 140,
               child: points.length < 2
                   ? Center(
-                      child: Text('Collecting data…',
+                      child: Text('Đang thu thập dữ liệu…',
                           style: TextStyle(color: cs.onSurfaceVariant)))
                   : LineChart(
                       LineChartData(

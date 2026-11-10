@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'screens/home_screen.dart';
-import 'state/etf_controller.dart';
+import 'app_shell.dart';
+import 'state/market_session.dart';
 import 'theme.dart';
 
 void main() {
@@ -16,14 +17,18 @@ class TransfeerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => EtfController(),
+      create: (_) => MarketSession(),
       child: MaterialApp(
         title: 'Transfeer · FUESSV30',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light(),
         darkTheme: AppTheme.dark(),
         themeMode: ThemeMode.system,
-        home: const HomeScreen(),
+        // Whole app in Vietnamese (incl. built-in Material texts).
+        locale: const Locale('vi', 'VN'),
+        supportedLocales: const [Locale('vi', 'VN')],
+        localizationsDelegates: GlobalMaterialLocalizations.delegates,
+        home: const AppShell(),
       ),
     );
   }

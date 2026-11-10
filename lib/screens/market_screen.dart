@@ -37,7 +37,7 @@ class MarketScreen extends StatelessWidget {
                   title: Text(c.error!, style: TextStyle(color: cs.onErrorContainer)),
                   subtitle: q == null
                       ? null
-                      : Text('Showing last known price',
+                      : Text('Đang hiển thị giá gần nhất',
                           style: TextStyle(color: cs.onErrorContainer)),
                   trailing: IconButton(
                     icon: Icon(Icons.refresh_rounded, color: cs.onErrorContainer),
