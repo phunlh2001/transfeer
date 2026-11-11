@@ -173,13 +173,16 @@ class _ResultHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    return Card(
-      color: cs.primary,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: AppTheme.heroGradient(cs),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(22),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text('Số chứng chỉ quỹ mua được',
-              style: TextStyle(color: cs.onPrimary.withValues(alpha: 0.8))),
+              style: TextStyle(color: AppTheme.onHero.withValues(alpha: 0.8))),
           const SizedBox(height: 6),
           TweenAnimationBuilder<double>(
             tween: Tween(end: units.toDouble()),
@@ -191,7 +194,7 @@ class _ResultHero extends StatelessWidget {
               child: Text(
                 active ? fmtNum(v) : '0',
                 style: TextStyle(
-                  color: cs.onPrimary,
+                  color: AppTheme.onHero,
                   fontSize: 48,
                   fontWeight: FontWeight.w900,
                   fontFeatures: const [FontFeature.tabularFigures()],
@@ -200,7 +203,7 @@ class _ResultHero extends StatelessWidget {
             ),
           ),
           Text('CCQ FUESSV30',
-              style: TextStyle(color: cs.onPrimary.withValues(alpha: 0.8))),
+              style: TextStyle(color: AppTheme.onHero.withValues(alpha: 0.8))),
         ]),
       ),
     );

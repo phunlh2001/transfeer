@@ -6,6 +6,7 @@ import 'screens/home_screen.dart';
 import 'screens/splash_screen.dart';
 import 'state/etf_controller.dart';
 import 'state/market_session.dart';
+import 'state/portfolio_store.dart';
 import 'widgets/update_sheet.dart';
 
 /// Splash → (market open ? live Home : Closed).
@@ -39,7 +40,7 @@ class _AppShellState extends State<AppShell> {
     } else if (open) {
       child = ChangeNotifierProvider(
         key: const ValueKey('open'),
-        create: (_) => EtfController(),
+        create: (ctx) => EtfController(onPrice: ctx.read<PortfolioStore>().recordPrice),
         child: const HomeScreen(),
       );
     } else {

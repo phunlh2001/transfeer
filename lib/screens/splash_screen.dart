@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../theme.dart';
 import '../utils/app_version.dart';
 import '../widgets/app_background.dart';
 import '../widgets/lottie_view.dart';
@@ -50,11 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 96,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(28),
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [cs.primary, cs.tertiary],
-                ),
+                gradient: AppTheme.heroGradient(cs),
                 boxShadow: [
                   BoxShadow(
                       color: cs.primary.withValues(alpha: 0.4),

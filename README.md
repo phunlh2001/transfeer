@@ -2,7 +2,7 @@
 
 One of my pet project to tracking ETF FUESSV30 Fund
 
-Flutter app (Android + Web), version **2.0.0**.
+Flutter app (Android + Web), version **2.1.0**.
 
 ## Features
 - **Live tracker**: polls `https://transfeer-be.onrender.com/api/etf` every 5 seconds.
@@ -10,6 +10,7 @@ Flutter app (Android + Web), version **2.0.0**.
   Outside those hours a "market closed" screen with a countdown is shown and **no API calls** are made.
   The app switches automatically at each session boundary. Public holidays are not detected.
 - **Calculator**: converts a VND amount into whole fund units, average cost per unit, total cost and leftover money. No fee is included.
+- **Portfolio ("Tài sản" tab)**: enter your current total once (money invested, units held, optional start date); it stays editable. Each weekly/monthly DCA buy is then logged (date, price, by amount or by units) and added to the total; deleting a buy subtracts it. Shows current value, gain/loss in VND and %, and a money-weighted yearly growth rate (XIRR, so recent buys don't drag it down). Projects 5–10 years from that rate (or a rate you type) with a weekly or monthly DCA plan, plus a chart. Saved on the device only (`shared_preferences`). Outside trading hours it opens from the "closed" screen using the last saved price.
 - **Splash screen** (~1s) with a Lottie animation, and a modern theme with Lottie illustrations (`assets/lottie/*.json`). Replace any of these files to change an animation.
 - **In-app update (Android)**: on launch, the app checks the latest GitHub Release. If it is newer, a sheet offers **Update now**, which downloads the APK in-app and opens the Android installer.
 

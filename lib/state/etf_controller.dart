@@ -17,6 +17,9 @@ class EtfController extends ChangeNotifier with WidgetsBindingObserver {
   static const int maxHistory = 120;
 
   final EtfApi _api;
+
+  /// Called after every successful poll (used to remember the last price).
+  final void Function(double price, DateTime at)? onPrice;
   Timer? _timer;
   bool _inFlight = false;
   bool _disposed = false;
@@ -27,7 +30,7 @@ class EtfController extends ChangeNotifier with WidgetsBindingObserver {
   String? error;
   final List<PricePoint> history = [];
 
-  EtfController({EtfApi? api, bool autoStart = true})
+  EtfController({EtfApi? api, bool autoStart = true, this.onPrice})
       : _api = api ?? EtfApi() {
     WidgetsBinding.instance.addObserver(this);
     if (autoStart) start();
@@ -60,6 +63,7 @@ class EtfController extends ChangeNotifier with WidgetsBindingObserver {
       error = null;
       history.add(PricePoint(lastUpdated!, q.price));
       if (history.length > maxHistory) history.removeAt(0);
+      onPrice?.call(q.price, lastUpdated!);
     } catch (e) {
       if (_disposed) return;
       error = _friendly(e);

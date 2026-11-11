@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../state/etf_controller.dart';
 import '../state/market_session.dart';
 import '../utils/app_version.dart';
 import '../widgets/app_background.dart';
@@ -9,6 +10,7 @@ import '../widgets/lottie_view.dart';
 import '../widgets/update_sheet.dart';
 import 'calculator_screen.dart';
 import 'market_screen.dart';
+import 'portfolio_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -34,7 +36,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: IndexedStack(
                     index: _tab,
-                    children: const [MarketScreen(), CalculatorScreen()],
+                    children: [
+                      const MarketScreen(),
+                      const CalculatorScreen(),
+                      Consumer<EtfController>(
+                        builder: (_, c, _) => PortfolioScreen(
+                          livePrice: c.quote?.price,
+                          livePriceAt: c.lastUpdated,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ]),
@@ -58,6 +69,11 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.calculate_outlined),
             selectedIcon: Icon(Icons.calculate_rounded),
             label: 'Quy đổi',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.account_balance_wallet_outlined),
+            selectedIcon: Icon(Icons.account_balance_wallet_rounded),
+            label: 'Tài sản',
           ),
         ],
       ),
@@ -87,7 +103,7 @@ class _Header extends StatelessWidget {
               end: Alignment.bottomRight,
               colors: [
                 cs.primary.withValues(alpha: 0.18),
-                cs.tertiary.withValues(alpha: 0.18)
+                cs.secondary.withValues(alpha: 0.18)
               ],
             ),
           ),

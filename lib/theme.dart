@@ -4,26 +4,55 @@ import 'package:google_fonts/google_fonts.dart';
 import 'models/etf_quote.dart';
 
 class AppTheme {
-  static const Color seed = Color(0xFF5B5BF7); // indigo → violet family
+  // Bright "fresh finance" palette: sky blue = trust, teal = growth, gold = money.
+  static const Color brand = Color(0xFF0284C7); // sky blue
+  static const Color growth = Color(0xFF0D9488); // teal
+  static const Color gold = Color(0xFFF59E0B); // gold
+
+  /// Hero cards / logo tile: vivid blue → teal in both modes; put WHITE text
+  /// on it ([onHero]).
+  static LinearGradient heroGradient(ColorScheme cs) => const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [brand, growth],
+      );
+  static const Color onHero = Colors.white;
 
   static ThemeData light() => _build(Brightness.light);
   static ThemeData dark() => _build(Brightness.dark);
 
   static ThemeData _build(Brightness b) {
     final dark = b == Brightness.dark;
-    final scheme = ColorScheme.fromSeed(
-      seedColor: seed,
-      brightness: b,
-      tertiary: const Color(0xFF8B5CF6),
+    // Accent colours: the exact vivid brand values in light mode; in dark mode
+    // the lighter "fidelity" tone of each, so they stay vivid on navy.
+    // Containers (selected tab, tonal buttons, chips) use the soft tonal-spot
+    // tints so they read as light washes instead of heavy blocks.
+    ColorScheme soft(Color c) => ColorScheme.fromSeed(seedColor: c, brightness: b);
+    ColorScheme vivid(Color c) => ColorScheme.fromSeed(
+        seedColor: c, brightness: b, dynamicSchemeVariant: DynamicSchemeVariant.fidelity);
+    Color accent(Color c) => dark ? vivid(c).primary : c;
+    Color onAccent(Color c) => dark ? vivid(c).onPrimary : Colors.white;
+
+    final scheme = soft(brand).copyWith(
+      primary: accent(brand),
+      onPrimary: onAccent(brand),
+      secondary: accent(growth),
+      onSecondary: onAccent(growth),
+      secondaryContainer: soft(growth).primaryContainer,
+      onSecondaryContainer: soft(growth).onPrimaryContainer,
+      tertiary: accent(gold),
+      onTertiary: dark ? vivid(gold).onPrimary : Colors.black,
+      tertiaryContainer: soft(gold).primaryContainer,
+      onTertiaryContainer: soft(gold).onPrimaryContainer,
     );
     final base = ThemeData(useMaterial3: true, colorScheme: scheme, brightness: b);
     final cardColor = dark
-        ? const Color(0xFF1A1C2E).withValues(alpha: 0.82)
-        : Colors.white.withValues(alpha: 0.86);
+        ? const Color(0xFF10223A).withValues(alpha: 0.85)
+        : Colors.white.withValues(alpha: 0.92);
 
     return base.copyWith(
       textTheme: GoogleFonts.beVietnamProTextTheme(base.textTheme),
-      scaffoldBackgroundColor: dark ? const Color(0xFF0B0D14) : const Color(0xFFF4F5FB),
+      scaffoldBackgroundColor: dark ? const Color(0xFF08131F) : const Color(0xFFF6FAFE),
       cardTheme: CardThemeData(
         elevation: 0,
         margin: EdgeInsets.zero,
@@ -52,13 +81,13 @@ class AppTheme {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          minimumSize: const Size.fromHeight(52),
+          minimumSize: const Size(64, 52),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          minimumSize: const Size.fromHeight(52),
+          minimumSize: const Size(64, 52),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         ),
       ),

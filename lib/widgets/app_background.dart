@@ -12,7 +12,7 @@ class AppBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final dark = Theme.of(context).brightness == Brightness.dark;
-    final a = dark ? 0.28 : 0.20;
+    final a = dark ? 0.26 : 0.22;
 
     Widget blob(Color c, double size) => Container(
           width: size,
@@ -35,8 +35,8 @@ class AppBackground extends StatelessWidget {
         ),
       ),
       Positioned(top: -120, right: -80, child: blob(cs.primary, 300)),
-      Positioned(top: 160, left: -140, child: blob(cs.tertiary, 260)),
-      Positioned(bottom: -140, right: -60, child: blob(cs.secondary, 280)),
+      Positioned(top: 160, left: -140, child: blob(cs.secondary, 260)),
+      Positioned(bottom: -140, right: -60, child: blob(cs.tertiary, 240)),
       Positioned.fill(
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 60, sigmaY: 60),

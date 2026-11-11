@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'app_shell.dart';
 import 'state/market_session.dart';
+import 'state/portfolio_store.dart';
 import 'theme.dart';
 
 void main() {
@@ -16,8 +17,11 @@ class TransfeerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => MarketSession(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => MarketSession()),
+        ChangeNotifierProvider(create: (_) => PortfolioStore()..load()),
+      ],
       child: MaterialApp(
         title: 'Transfeer · FUESSV30',
         debugShowCheckedModeBanner: false,

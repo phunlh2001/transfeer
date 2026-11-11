@@ -11,6 +11,7 @@ import '../utils/market_hours.dart';
 import '../widgets/app_background.dart';
 import '../widgets/lottie_view.dart';
 import '../widgets/update_sheet.dart';
+import 'portfolio_screen.dart';
 
 /// Shown outside trading hours. Makes no API calls.
 class ClosedScreen extends StatefulWidget {
@@ -122,6 +123,18 @@ class _ClosedScreenState extends State<ClosedScreen> {
                             )),
                       ]),
                     ),
+                  ),
+                  const SizedBox(height: 16),
+                  FilledButton.tonalIcon(
+                    onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const PortfolioPage()),
+                    ),
+                    style: FilledButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                    ),
+                    icon: const Icon(Icons.account_balance_wallet_rounded),
+                    label: const Text('Xem tài sản của tôi'),
                   ),
                   const SizedBox(height: 16),
                   Card(

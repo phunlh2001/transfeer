@@ -107,7 +107,7 @@ void main() {
   });
 
   test('bundled Lottie files parse', () async {
-    for (final name in ['loading', 'market_closed', 'chart', 'coins']) {
+    for (final name in ['loading', 'market_closed', 'chart', 'coins', 'growth']) {
       final bytes = File('assets/lottie/$name.json').readAsBytesSync();
       final comp = await LottieComposition.fromBytes(bytes);
       expect(comp.duration, greaterThan(Duration.zero), reason: name);
